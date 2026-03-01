@@ -1,8 +1,10 @@
 FROM golang:1.18-alpine
 
-WORKDIR /app
+WORKDIR /go/src/auth-api
 
 COPY . .
+
+ENV GO111MODULE=off
 
 RUN go build -o auth-api
 
