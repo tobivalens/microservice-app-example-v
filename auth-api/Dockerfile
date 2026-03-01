@@ -7,10 +7,11 @@ COPY go.mod go.sum ./
 RUN go mod download
 
 COPY . .
-RUN go build -o auth-api
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o auth-api
+
 
 # Runtime stage
-FROM alpine:latest
+FROM alpine:3.18
 
 WORKDIR /app
 
@@ -23,3 +24,5 @@ ENV USERS_API_ADDRESS=http://192.168.56.21:8083
 ENV JWT_SECRET=PRFT
 
 CMD ["./auth-api"]
+
+
