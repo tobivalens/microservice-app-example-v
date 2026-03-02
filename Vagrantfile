@@ -66,4 +66,59 @@ Vagrant.configure("2") do |config|
    users.vm.provision "shell", path: "scripts/users_setup.sh"
   end
 
+  
+  # -------------------------
+  # TODOS API
+  # -------------------------
+
+  config.vm.define "todos-api" do |todos|
+  todos.vm.hostname = "todos-api"
+
+  todos.vm.network "private_network", ip: "192.168.56.22"
+
+    todos.vm.provider "virtualbox" do |vb|
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+
+   todos.vm.provision "shell", path: "scripts/todos_setup.sh"
+  end
+
+
+  # -------------------------
+  # redis 
+  # -------------------------
+
+  config.vm.define "redis" do |redis|
+  redis.vm.hostname = "redis"
+
+  redis.vm.network "private_network", ip: "192.168.56.23"
+
+    redis.vm.provider "virtualbox" do |vb|
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+
+   redis.vm.provision "shell", path: "scripts/redis_setup.sh"
+  end
+
+  
+  # -------------------------
+  # Log message processor 
+  # -------------------------
+
+
+  config.vm.define "log-processor" do |log|
+   log.vm.hostname = "log-processor"
+
+    log.vm.network "private_network", ip: "192.168.56.24"
+
+    log.vm.provider "virtualbox" do |vb|
+      vb.memory = 512
+      vb.cpus = 1
+    end
+
+    log.vm.provision "shell", path: "scripts/log_setup.sh"
+  end
+
 end
